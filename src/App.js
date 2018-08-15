@@ -8,34 +8,44 @@ import NewRoomForm from "./components/NewRoomForm";
 import { tokenUrl, instanceLocator } from "./config";
 
 class App extends React.Component {
-
-  constructor(props){
-      super(props);
-      this.state = {
-          messages: []
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: []
+    };
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentDidMount() {
-    const chatManager = new Chatkit.chatManager({
-      instanceLocator,
+    const tokenProvider = new Chatkit.TokenProvider({
+      url: tokenUrl
+    });
+
+    const chatManager = new Chatkit.ChatManager({
+      instanceLocator: instanceLocator,
       userId: "jfrank77",
-      tokenProvider: new Chatkit.tokenProvider({
-        url: tokenUrl
-      })
+      tokenProvider: tokenProvider
     });
 
     chatManager.connect().then(currentUser => {
-      currentUser.subscribeToRoom({
+      this.currentUser = currentUser;
+      this.currentUser.subscribeToRoom({
         roomId: 13705030,
         hooks: {
           onNewMessage: message => {
-              this.setState({
-                  messages: [...this.state.messages, message]
-              })
+            this.setState({
+              messages: [...this.state.messages, message]
+            });
           }
         }
       });
+    });
+  }
+
+  sendMessage(text) {
+    this.currentUser.sendMessage({
+      text,
+      roomId: 13705030
     });
   }
 
@@ -44,7 +54,7 @@ class App extends React.Component {
       <div className="app">
         <RoomList />
         <MessageList messages={this.state.messages} />
-        <SendMessageForm />
+        <SendMessageForm sendMessage={this.sendMessage} />
         <NewRoomForm />
       </div>
     );
