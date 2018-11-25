@@ -1,5 +1,5 @@
 import React from 'react';
-import Chatkit from '@pusher/chatkit';
+import Chatkit from '@pusher/chatkit-client';
 import MessageList from './components/MessageList';
 import SendMessageForm from './components/SendMessageForm';
 import RoomList from './components/RoomList';
@@ -17,10 +17,6 @@ class App extends React.Component {
       joinableRooms: [],
       joinedRooms: [],
     };
-    this.sendMessage = this.sendMessage.bind(this);
-    this.subscribeToRoom = this.subscribeToRoom.bind(this);
-    this.getRooms = this.getRooms.bind(this);
-    this.createRoom = this.createRoom.bind(this);
   }
 
   componentDidMount() {
@@ -43,7 +39,7 @@ class App extends React.Component {
       .catch(err => console.log('got an error connecting: ', err));
   }
 
-  getRooms() {
+  getRooms = () => {
     this.currentUser
       .getJoinableRooms()
       .then(joinableRooms => {
@@ -55,7 +51,7 @@ class App extends React.Component {
       .catch(err => console.log('got an error with the rooms: ', err));
   }
 
-  subscribeToRoom(roomId) {
+  subscribeToRoom = (roomId) => {
     this.setState({ messages: [] });
     this.currentUser
       .subscribeToRoom({
@@ -77,14 +73,14 @@ class App extends React.Component {
       .catch(err => console.log('got an error subscribing to the room: ', err));
   }
 
-  sendMessage(text) {
+  sendMessage = (text) => {
     this.currentUser.sendMessage({
       text,
       roomId: this.state.roomId,
     });
   }
 
-  createRoom(roomName) {
+  createRoom = (roomName) => {
     this.currentUser
       .createRoom({
         name: roomName,

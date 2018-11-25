@@ -3,5 +3,4 @@ const tokenUrl =
 
 const instanceLocator = "v1:us1:c5a7d1cf-569a-47b9-a519-0f0b7b83212c";
 
-exports.tokenUrl = tokenUrl;
-exports.instanceLocator = instanceLocator;
+export { tokenUrl, instanceLocator };

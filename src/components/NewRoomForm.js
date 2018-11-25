@@ -1,22 +1,21 @@
 import React from 'react';
 
 class NewRoomForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.state = {
       roomName: '',
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState({
       roomName: event.target.value,
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     this.props.createRoom(this.state.roomName);
     this.setState({
@@ -26,8 +25,7 @@ class NewRoomForm extends React.Component {
 
   render() {
     return (
-      <div className="new-room-form">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="new-room-form">
           <input
             value={this.state.roomName}
             onChange={this.handleChange}
@@ -35,11 +33,8 @@ class NewRoomForm extends React.Component {
             placeholder="NewRoomForm"
             required
           />
-          <button id="create-room-btn" type="submit">
-            +
-          </button>
+          <button id="create-room-btn" type="submit">+</button>
         </form>
-      </div>
     );
   }
 }

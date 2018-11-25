@@ -1,22 +1,21 @@
 import React from 'react';
 
 class SendMessageForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    
     this.state = {
       message: '',
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState({
       message: event.target.value,
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     this.props.sendMessage(this.state.message);
     this.setState({
